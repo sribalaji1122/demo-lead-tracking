@@ -1,15 +1,21 @@
-// Function to get URL parameters
-function getParam(param) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-}
+// Get query parameters from current URL
+const queryString = window.location.search;
 
-// Get values from URL
-const lead_id = getParam("leadid");
-const campaign = getParam("utm_campaign");
-const step = getParam("step");
+// Extract parameters
+const urlParams = new URLSearchParams(queryString);
 
-// Get page name (link name)
+const lead_id = urlParams.get("leadid");
+const campaign = urlParams.get("utm_campaign");
+const step = urlParams.get("step");
+
+// Preserve parameters when clicking links
+document.querySelectorAll("a").forEach(link => {
+    if (!link.href.includes("?") && queryString) {
+        link.href = link.href + queryString;
+    }
+});
+
+// Detect page name
 let page = window.location.pathname.split("/").pop();
 
 if(page === ""){
